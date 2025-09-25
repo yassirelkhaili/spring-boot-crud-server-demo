@@ -1,0 +1,18 @@
+version: "3.9"
+
+volumes:
+  store_postgres_data:
+    driver: local
+
+services:
+  postgres_for_store:
+    container_name: store_postgres_container
+    image: postgres:13.3
+    volumes:
+      - store_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: store_db
+      POSTGRES_USER: store
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
