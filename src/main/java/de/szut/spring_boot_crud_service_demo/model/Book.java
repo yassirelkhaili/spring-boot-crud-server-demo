@@ -2,7 +2,10 @@ package de.szut.spring_boot_crud_service_demo.model;
 
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
@@ -25,6 +28,11 @@ public class Book {
 
     private String commenter;
 
-    @Column(name = "date_of_entry", nullable = false, updatable = false)
-    private LocalDate date = LocalDate.now();
+    @CreatedDate
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 }

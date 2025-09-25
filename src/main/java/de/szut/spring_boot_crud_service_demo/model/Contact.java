@@ -6,9 +6,9 @@ import jakarta.validation.constraints.Size;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import jakarta.persistence.GenerationType;
@@ -19,21 +19,29 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import java.util.Set;
-import jakarta.persistence.OneToMany;
 
 @Data
 @Entity
 @Table
-public class Supplier {
+public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Name is mandatory")
-    @Size(max = 50, message = "Name must not exceed 50 charracters")
-    private String name;
+    @NotBlank(message = "Street is mandatory")
+    @Size(max = 50, message = "Street must not exceed 50 charracters")
+    private String street;
+
+    @Column(name = "zip")
+    @NotBlank(message = "Postcode is mandatory")
+    @Size(min = 5, max = 5, message = "Postcode must have 5 charracters")
+    private String postcode;
+
+    @NotBlank(message = "City is mandatory")
+    @Size(max = 50, message = "City must not exceed 50 charracters")
+    private String city;
+
+    private String phone;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -43,10 +51,6 @@ public class Supplier {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "contact_id")
-    private Contact contact;
-
-    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Article> articles;
+    @OneToOne(mappedBy = "contact", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Supplier supplier;
 }
